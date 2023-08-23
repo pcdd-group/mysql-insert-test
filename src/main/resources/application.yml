@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # rewriteBatchedStatements=true 做了什么？
+    # 1.关闭自动提交（SET autocommit=0）
+    # 2.将 1000 条 insert 语句合成一条来执行
+    # 3.提交事务（commit），然后开启自动提交（SET autocommit=1）
+    # mp 的 saveBatch() 插入10w条数据耗时：14.28s，开启批处理模式后耗时：2.9s
+    # mp 的 saveBatch() 插入100w条数据耗时：60.79s，开启批处理模式后耗时：9.78s
+    # mybatis 的 foreach 则不受影响（默认开启）
+    url: jdbc:mysql:///mysql_insert_test?
+      &useUnicode=true
+      &characterEncoding=utf-8
+      &rewriteBatchedStatements=true
+    username: root
+    password: root
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.pcdd.mysqlinserttest.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
