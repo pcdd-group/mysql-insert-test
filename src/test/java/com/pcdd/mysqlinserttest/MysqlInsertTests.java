@@ -45,13 +45,34 @@ class MysqlInsertTests {
 
     /**
      * rewriteBatchedStatements 开不开启均无影响
-     * 5w：25.96s
-     * 10w: 53.43s
-     * 100w: 510.49s
+     * 5w：41.73s
+     * 10w: 93.26s
+     * 100w: 716.35s
+     */
+    @Test
+    @DisplayName("Mybatis 循环插入")
+    void test01() {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        Random random = new Random();
+        for (int i = 1; i <= N; i++) {
+            personMapper.insert(new Person("person-" + i, random.nextInt(18, 90)));
+        }
+
+        stopWatch.stop();
+        log.info("插入 {} 条数据耗时：{} s", N, stopWatch.getTotalTimeSeconds());
+    }
+
+    /**
+     * rewriteBatchedStatements 开不开启均无影响
+     * 5w：41.59s
+     * 10w: 87.56s
+     * 100w: 747.62s
      */
     @Test
     @DisplayName("Mybatis-Plus 循环插入")
-    void test01() {
+    void test02() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
@@ -65,42 +86,10 @@ class MysqlInsertTests {
     }
 
     /**
-     * rewriteBatchedStatements=false 时
-     * 5w: 4.03s
-     * 10w: 6.86s
-     * 100w: 57.07s
-     * <p>
-     * rewriteBatchedStatements=true 时
-     * 5w: 0.83s
-     * 10w: 1.38s
-     * 100w: 9.75s
-     */
-    @Test
-    @DisplayName("Mybatis-Plus 批量插入")
-    void test02() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-
-        Random random = new Random();
-        List<Person> list = new ArrayList<>();
-        for (int i = 1; i <= N; i++) {
-            list.add(new Person("person-" + i, random.nextInt(18, 90)));
-            // 防止内存溢出
-            if (i % 1000 == 0) {
-                personService.saveBatch(list);
-                list.clear();
-            }
-        }
-
-        stopWatch.stop();
-        log.info("插入 {} 条数据耗时：{} s", N, stopWatch.getTotalTimeSeconds());
-    }
-
-    /**
      * rewriteBatchedStatements 开不开启均无影响
      * 5w: 0.87s
-     * 10w: 1.38s
-     * 100w: 9.83s
+     * 10w: 1.69s
+     * 100w: 10.23s
      */
     @Test
     @DisplayName("Mybatis 批量插入")
@@ -123,16 +112,48 @@ class MysqlInsertTests {
         log.info("插入 {} 条数据耗时：{} s", N, stopWatch.getTotalTimeSeconds());
     }
 
+    /**
+     * rewriteBatchedStatements=false 时
+     * 5w: 4.03s
+     * 10w: 6.86s
+     * 100w: 57.07s
+     * <p>
+     * rewriteBatchedStatements=true 时
+     * 5w: 0.83s
+     * 10w: 1.09s
+     * 100w: 7.47s
+     */
+    @Test
+    @DisplayName("Mybatis-Plus 批量插入")
+    void test04() {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
+        Random random = new Random();
+        List<Person> list = new ArrayList<>();
+        for (int i = 1; i <= N; i++) {
+            list.add(new Person("person-" + i, random.nextInt(18, 90)));
+            // 防止内存溢出
+            if (i % 1000 == 0) {
+                personService.saveBatch(list);
+                list.clear();
+            }
+        }
+
+        stopWatch.stop();
+        log.info("插入 {} 条数据耗时：{} s", N, stopWatch.getTotalTimeSeconds());
+    }
+
 
     /**
      * rewriteBatchedStatements 开不开启均无影响
      * 5w: 0.79s
-     * 10w: 1.35s
-     * 100w: 9.84s
+     * 10w: 1.57s
+     * 100w: 10.19s
      */
     @Test
     @DisplayName("Mybatis-Plus insertBatchSomeColumn")
-    void test04() {
+    void test05() {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
