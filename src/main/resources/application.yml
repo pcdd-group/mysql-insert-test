@@ -11,7 +11,6 @@ spring:
     url: jdbc:mysql:///mysql_insert_test?
       &useUnicode=true
       &characterEncoding=utf-8
-      &useSSL=false
       &rewriteBatchedStatements=true
     username: root
     password: root

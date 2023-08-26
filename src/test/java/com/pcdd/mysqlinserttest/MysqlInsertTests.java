@@ -45,9 +45,9 @@ class MysqlInsertTests {
 
     /**
      * rewriteBatchedStatements 开不开启均无影响
-     * 5w：41.73s
-     * 10w: 93.26s
-     * 100w: 716.35s
+     * 5w：41.73s 42.95s
+     * 10w: 93.26s 59.75s
+     * 100w: 716.35s 661.17s
      */
     @Test
     @DisplayName("Mybatis 循环插入")
@@ -66,9 +66,9 @@ class MysqlInsertTests {
 
     /**
      * rewriteBatchedStatements 开不开启均无影响
-     * 5w：41.59s
-     * 10w: 87.56s
-     * 100w: 747.62s
+     * 5w：41.59s 29.76
+     * 10w: 87.56s 58.42s
+     * 100w: 747.62s 720.36s
      */
     @Test
     @DisplayName("Mybatis-Plus 循环插入")
@@ -87,9 +87,9 @@ class MysqlInsertTests {
 
     /**
      * rewriteBatchedStatements 开不开启均无影响
-     * 5w: 0.87s
-     * 10w: 1.69s
-     * 100w: 10.23s
+     * 5w: 0.87s 0.75s
+     * 10w: 1.69s 1.32s
+     * 100w: 10.23s 15.02s
      */
     @Test
     @DisplayName("Mybatis 批量插入")
@@ -119,9 +119,9 @@ class MysqlInsertTests {
      * 100w: 57.07s
      * <p>
      * rewriteBatchedStatements=true 时
-     * 5w: 0.83s
-     * 10w: 1.09s
-     * 100w: 7.47s
+     * 5w: 0.83s 0.50s
+     * 10w: 1.09s 0.91s
+     * 100w: 7.47s 10.33s
      */
     @Test
     @DisplayName("Mybatis-Plus 批量插入")
@@ -147,9 +147,9 @@ class MysqlInsertTests {
 
     /**
      * rewriteBatchedStatements 开不开启均无影响
-     * 5w: 0.79s
-     * 10w: 1.57s
-     * 100w: 10.19s
+     * 5w: 0.79s 0.62s
+     * 10w: 1.57s 0.96s
+     * 100w: 10.19s 14.11s
      */
     @Test
     @DisplayName("Mybatis-Plus insertBatchSomeColumn")
